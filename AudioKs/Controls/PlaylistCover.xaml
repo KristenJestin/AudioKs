@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="AudioKs.PlaylistCover"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AudioKs"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <BitmapImage x:Key="DefaultCoverImage" UriSource="../Images/Playlists/vignette.png" />
+        <!--<BitmapImage x:Key="DefaultCoverImage" UriSource="../Images/home.jpg" />-->
+    </UserControl.Resources>
+
+    <Grid Width="212" Margin="10" Height="236" Cursor="Hand"
+          MouseLeftButtonUp="StackPanel_MouseLeftButtonUp">
+        <Image Source="{Binding Image, FallbackValue={StaticResource DefaultCoverImage}, TargetNullValue={StaticResource DefaultCoverImage}}" Height="212" Stretch="UniformToFill" VerticalAlignment="Top" HorizontalAlignment="Center" />
+        <!--<Grid Height="212" VerticalAlignment="Top" Style="{StaticResource ShowGridHover}" />-->
+        <TextBlock Text="{Binding Title, FallbackValue='Titre dune playlist, oui ouiou isdfsdfsdf'}" TextTrimming="CharacterEllipsis" Foreground="{StaticResource PrimaryTextBrush}" FontFamily="{StaticResource Uni}" FontWeight="SemiBold" FontSize="15" VerticalAlignment="Bottom" Margin="0,8,0,0" />
+    </Grid>
+</UserControl>

@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="AudioKs.SoundBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AudioKs"
+             mc:Ignorable="d" 
+             d:DesignWidth="1000">
+    
+    <UserControl.Resources>
+        <BitmapImage x:Key="DefaultCoverImage" UriSource="../Images/cover.png" />
+
+        <BitmapImage x:Key="PlayImage" UriSource="../Images/play.png" />
+        <BitmapImage x:Key="PauseImage" UriSource="../Images/pause.png" />
+        <BitmapImage x:Key="NextImage" UriSource="../Images/next.png" />
+        <BitmapImage x:Key="PreviousImage" UriSource="../Images/previous.png" />
+        
+        <BitmapImage x:Key="RandomImage" UriSource="../Images/random.png" />
+        <BitmapImage x:Key="RandomSelectedImage" UriSource="../Images/random-selected.png" />
+        <BitmapImage x:Key="RepeatImage" UriSource="../Images/repeat.png" />
+        <BitmapImage x:Key="RepeatSelectedImage" UriSource="../Images/repeat-selected.png" />
+
+        <BitmapImage x:Key="SpeakerXImage" UriSource="../Images/speaker-x.png" />
+        <BitmapImage x:Key="Speaker1Image" UriSource="../Images/speaker-1.png" />
+        <BitmapImage x:Key="Speaker2Image" UriSource="../Images/speaker-2.png" />
+        <BitmapImage x:Key="Speaker3Image" UriSource="../Images/speaker-3.png" />
+    </UserControl.Resources>
+
+    
+    <Grid>
+        <Grid VerticalAlignment="Bottom">
+    
+            <Grid Height="90" Background="{StaticResource SecondaryBackgroundBrush}">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Cover and Text -->
+                <DockPanel Margin="16,0,30,0" VerticalAlignment="Center">
+                    <Image Source="{Binding Image, FallbackValue={StaticResource DefaultCoverImage}, TargetNullValue={StaticResource DefaultCoverImage}}" Height="57" HorizontalAlignment="Left" Stretch="Uniform" />
+                    <StackPanel VerticalAlignment="Center" Margin="12,0,30,0">
+                        <TextBlock Text="{Binding Title, FallbackValue=!Lost!}" TextTrimming="CharacterEllipsis" Foreground="{StaticResource PrimaryTextBrush}" FontFamily="{StaticResource Uni}" FontWeight="SemiBold" FontSize="18" />
+                        <TextBlock Text="{Binding Artist, FallbackValue=Riles}" TextTrimming="CharacterEllipsis" Foreground="#FFA0A0A0" FontFamily="{StaticResource Uni}" FontWeight="Light" FontSize="15" />
+                    </StackPanel>
+                </DockPanel>
+
+                <!-- Play / Pause / Other -->
+                <DockPanel Grid.Column="1" VerticalAlignment="Center">
+                    <!--Random-->
+                    <Button Click="Random_Click" Style="{StaticResource TransparentButton}" VerticalAlignment="Center">
+                        <Image x:Name="RandomImage" Source="{StaticResource RandomImage}" Stretch="Uniform" Height="12" />
+                    </Button>
+
+                    <!--Previous-->
+                    <Button Click="Previous_Click" MouseDoubleClick="Previous_DoubleClick" Style="{StaticResource TransparentButton}" Margin="35,0,28,0" VerticalAlignment="Center">
+                        <Image Source="{StaticResource PreviousImage}" Stretch="Uniform" Height="14" />
+                    </Button>
+
+                    <!--Play-->
+                    <Button Click="Play_Click" Style="{StaticResource PlayButton}" VerticalAlignment="Center">
+                        <Image x:Name="PlayImage" Source="{Binding PlayingImage, FallbackValue={StaticResource PlayImage}, TargetNullValue={StaticResource PlayImage}}" Stretch="Uniform" Height="33" />
+                    </Button>
+
+                    <!--Next-->
+                    <Button Click="Next_Click" Style="{StaticResource TransparentButton}" Margin="35,0,28,0" VerticalAlignment="Center">
+                        <Image Source="{StaticResource NextImage}" Stretch="Uniform" Height="14" />
+                    </Button>
+
+                    <!--Repeat-->
+                    <Button  Click="Repeat_Click" Style="{StaticResource TransparentButton}" VerticalAlignment="Center">
+                        <Image x:Name="RepeatImage" Source="{StaticResource RepeatImage}" Stretch="Uniform" Height="11" />
+                    </Button>
+                </DockPanel>
+
+                <!-- Volume -->
+                <DockPanel Grid.Column="2" Margin="0,0,25,0" VerticalAlignment="Center" HorizontalAlignment="Right" Height="45" Background="Transparent"
+                           MouseWheel="VolumePanel_MouseWheel">
+                    <Button Click="Volume_Click" Style="{StaticResource TransparentButton}" Margin="0,0,5,0">
+                        <Image x:Name="VolumeImage" Source="{StaticResource Speaker2Image}" Stretch="Uniform" Height="18" />
+                    </Button>
+                    <Slider x:Name="VolumeSlider" Width="110" IsSnapToTickEnabled="True" Style="{StaticResource Volume_Slider}"
+                            Maximum="1" Value="0.5" TickFrequency="0.05" SmallChange="0.05" LargeChange="0.1"
+                            ValueChanged="VolumeSlider_ValueChanged" />
+                </DockPanel>
+
+            </Grid>            
+
+        </Grid>
+        
+        <Slider x:Name="ProgressSlider" Value="50" Maximum="100" Style="{StaticResource Time_Slider}" VerticalAlignment="Bottom" Margin="0,0,0,83"
+                ValueChanged="ProgressSlider_ValueChanged" Thumb.DragStarted="ProgressSlider_DragStarted" Thumb.DragCompleted="ProgressSlider_DragCompleted" />
+    </Grid>
+</UserControl>

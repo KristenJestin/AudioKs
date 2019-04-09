@@ -1,0 +1,117 @@
+﻿<Window x:Class="AudioKs.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AudioKs"
+        mc:Ignorable="d"
+        Title="AudioKs" Height="600" Width="1000" Background="{StaticResource PrimaryBackgroundBrush}"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResize" WindowStyle="None" AllowsTransparency="True" WindowState="Normal"
+        StateChanged="Window_StateChanged" Closing="Window_Closing" ContentRendered="Window_ContentRendered">
+
+
+    <Window.Resources>
+        <BitmapImage x:Key="SmallImage" UriSource="Images/small.png" />
+        <BitmapImage x:Key="FullImage" UriSource="Images/full.png" />
+
+        <BitmapImage x:Key="MenuCloseImage" UriSource="Images/menu-close.png" />
+        <BitmapImage x:Key="MenuOpenImage" UriSource="Images/menu-open.png" />
+    </Window.Resources>
+
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo>
+            <TaskbarItemInfo.ThumbButtonInfos>
+                <ThumbButtonInfo x:Name="PlayThumbButton" Description="Play" Click="PlayThumbButton_Click" ImageSource="Images/play.png" />
+            </TaskbarItemInfo.ThumbButtonInfos>
+        </TaskbarItemInfo>
+    </Window.TaskbarItemInfo>
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="{StaticResource ChromeBar-Height}" />
+    </WindowChrome.WindowChrome>
+
+    <Grid x:Name="MainGrid">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{Binding Source={StaticResource ChromeBar-Height}}"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--#region Chrome Bar -->
+            <Grid x:Name="ChromeBar" Background="{StaticResource ChromeBackgroundBrush}">
+                <Label x:Name="Connected" Content="0 Connecté(s)" Foreground="{StaticResource PrimaryTextBrush}" VerticalAlignment="Center" Margin="100,0,0,0" HorizontalAlignment="Left" />
+                <Grid WindowChrome.IsHitTestVisibleInChrome="True" HorizontalAlignment="Left">
+                    <Button Click="Menu_Click" Style="{StaticResource TransparentButton}" Background="{StaticResource ChromeBackgroundOverBrush}"  Opacity="1" Focusable="False">
+                        <Image x:Name="MenuImage" Source="{StaticResource MenuCloseImage}" Stretch="Uniform" Width="23" Height="14" RenderTransformOrigin=".5,.5" Margin="25,0">
+                            <Image.RenderTransform>
+                                <RotateTransform x:Name="MenuImageTransform" Angle="0" />
+                            </Image.RenderTransform>
+                        </Image>
+                    </Button>
+                </Grid>
+                <TextBlock Text="A u d i o K s" Foreground="White" VerticalAlignment="Center" FontFamily="{StaticResource Dyno}" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" />
+                <DockPanel WindowChrome.IsHitTestVisibleInChrome="True" HorizontalAlignment="Right">
+                    <Button Click="Minimize_Click" Style="{StaticResource TransparentButton}" Background="{StaticResource ChromeBackgroundOverBrush}" Opacity="1" Focusable="False">
+                        <Image Source="Images/minimize.png" Stretch="Fill" Width="10" Height="2" Margin="17,0" />
+                    </Button>
+                    <Button x:Name="WinSize" Click="WinSize_Click" Style="{StaticResource TransparentButton}" Background="{StaticResource ChromeBackgroundOverBrush}" Opacity="1" Focusable="False">
+                        <Image x:Name="WinSizeImage" Source="{StaticResource FullImage}" Stretch="Fill" Width="11" Height="10" Margin="17,0" />
+                    </Button>
+                    <Button Click="Close_Click" Style="{StaticResource TransparentButton}" Background="#FFE81123" Opacity="1" Focusable="False">
+                        <Image Source="Images/close.png" Stretch="Fill" Width="11" Height="10" Margin="17,0" />
+                    </Button>
+                </DockPanel>
+            </Grid>
+            <!--#endregion-->
+
+            <!--#region Main Content-->
+            <Grid Grid.Row="1" Margin="0,0,0,96">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <!--#region Left Menu-->
+
+                <local:Menu x:Name="LeftMenu" />
+
+                <!--#endregion-->
+
+                <!--#region Page-->
+
+                <Frame x:Name="PageHolder" Background="{StaticResource PrimaryBackgroundBrush}" NavigationUIVisibility="Hidden"
+                       Grid.Column="1" Focusable="False" />
+
+                <Grid Background="Fuchsia" Grid.Column="1" Visibility="Collapsed">
+                    <TextBlock Text="MORCEAUX" FontFamily="{StaticResource Arimo}" Margin="30,20" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontSize="50" FontWeight="Heavy" />
+                    <TextBlock Text="MORCEAUX" FontFamily="{StaticResource Arimo}" Margin="30,20" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White" FontSize="50" FontWeight="Heavy" />
+                </Grid>
+
+                <!--#endregion-->
+
+
+            </Grid>
+            <!--#endregion-->
+
+        </Grid>
+
+        <!--#region Sound Bar-->
+
+        <Grid x:Name="SoundBarContainer" VerticalAlignment="Bottom">
+            <local:SoundBar x:Name="SoundBar" />
+        </Grid>
+
+
+
+        <!--#region New Panel Playlist-->
+        <!--Margin="{StaticResource ChromeBar-Margin}"-->
+        <Grid x:Name="NewPlaylistContainer" Visibility="Collapsed" Background="{StaticResource NewPlaylistBrush}" Margin="0"
+              MouseLeftButtonUp="NewPlaylistContainer_MouseLeftButtonDown">
+            <local:NewPlaylistPanel x:Name="NewPlaylistPanel" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Grid>
+
+        <!--#endregion-->
+    </Grid>
+</Window>

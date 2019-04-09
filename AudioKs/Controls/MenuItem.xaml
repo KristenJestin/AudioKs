@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="AudioKs.MenuItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AudioKs"
+             mc:Ignorable="d" 
+             d:DesignWidth="{StaticResource LeftMenu-Width}">
+    <UserControl.Resources>
+        <Style TargetType="ItemsControl" x:Key="UserDockPanelStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ItemsControl">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Style="{StaticResource MenuItem}" Text="{Binding ItemName, FallbackValue=ITEM}" PreviewMouseDown="Text_PreviewMouseDown" />
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                                <ItemsPresenter/>
+                            </ScrollViewer>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <StackPanel IsItemsHost="True"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <ItemsControl x:Name="ItemsControl" Style="{StaticResource UserDockPanelStyle}" ItemsSource="{Binding SubMenuItems}" />
+
+</UserControl>
